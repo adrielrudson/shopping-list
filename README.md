@@ -1,2 +1,3 @@
 # shopping-list
 Shopping List is a single-page web application built with pure HTML, CSS and JavaScript. It lets you register products with prices, build shopping lists with automatic subtotal and total calculation, export the list as a PDF and the catalog as a JSON file. Features dark mode, support for three languages (Português, English, Español), six currencies and a responsive layout for both desktop and mobile. All data is saved locally in the browser via localStorage — no server or sign-up needed.
+Built entirely through prompting with Claude Sonnet 4.5, without writing a single line of code manually.
