@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopping List</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══════════════ SPLASH SCREEN ══════════════ -->
+<div id="splash">
+  <div class="splash-card">
+    <h1 id="splash-title">Seja bem-vindo.</h1>
+    <p id="splash-subtitle">Configure suas preferências e escolha como começar.</p>
+
+    <!-- Language & Currency row -->
+    <div style="display:flex;gap:10px;margin-bottom:20px;">
+      <div style="flex:1;">
+        <div class="splash-pref-label" id="splash-label-lang">Idioma</div>
+        <div style="display:flex;gap:4px;margin-top:6px;">
+          <button class="lang-btn active" onclick="splashSetLang('pt')" id="splash-lang-pt" title="Português"><svg viewBox="0 0 512 512" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M452.45,102.41H59.55c-19.11,0-34.61,15.72-34.61,35.11v236.95c0,19.39,15.49,35.11,34.61,35.11h392.9c19.11,0,34.61-15.72,34.61-35.11v-236.95c0-19.39-15.49-35.11-34.61-35.11Z" fill="#72af2d"/><path d="M251.8,145.39l-170.38,103.71c-5.17,3.15-5.17,10.66,0,13.81l170.38,103.71c2.58,1.57,5.82,1.57,8.41,0l170.38-103.71c5.17-3.15,5.17-10.66,0-13.81l-170.38-103.71c-2.58-1.57-5.82-1.57-8.41,0Z" fill="#ffe05a"/><circle cx="256" cy="256" r="64.67" fill="#414897"/><path d="M200.51,222.92c-3.05,5.11-5.41,10.66-6.96,16.55,35.85-2.7,88.88,7.33,122.64,40.08,2.2-5.62,3.66-11.61,4.2-17.88-34.85-29.33-83.04-39.76-119.87-38.76Z" fill="#f4f4f4"/></svg></button>
+          <button class="lang-btn" onclick="splashSetLang('en')" id="splash-lang-en" title="English"><svg viewBox="0 0 512 512" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="24.97" y="101.89" width="462.06" height="308.21" rx="34.6" fill="#f1f1f5"/><rect x="24.97" y="190.03" width="462.06" height="44.32" fill="#e3646e"/><rect x="24.97" y="278.17" width="462.06" height="44.32" fill="#e3646e"/><path d="M452.43,101.89H59.58c-19.12,0-34.61,15.5-34.61,34.61v8.64h0v97.03h248.23V101.89h179.23Z" fill="#e3646e"/><path d="M24.97,366.81v8.64c0,19.11,15.49,34.66,34.6,34.66h392.85c19.11,0,34.6-15.55,34.6-34.66v-8.64H24.97Z" fill="#e3646e"/><path d="M24.97,136.51v141.66h248.23V101.89H59.58c-19.12,0-34.61,15.5-34.61,34.61Z" fill="#4f55a0"/></svg></button>
+          <button class="lang-btn" onclick="splashSetLang('es')" id="splash-lang-es" title="Español"><svg viewBox="0 0 512 512" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M487.03,410.59H24.97v-29.76H487.03v29.76c0,19.51-15.82,35.33-35.32,35.33H61.66c-19.51,0-35.32-15.82-35.32-35.33h.63Z" fill="#c8424b"/><rect x="24.97" y="166.5" width="462.06" height="178.99" fill="#ffd251"/><path d="M487.03,101.89H61.66c-19.51,0-35.32,15.82-35.32,35.38v29.23H487.03v-29.23c0-19.56-15.82-35.38-35.32-35.38h35.32Z" fill="#c8424b"/><rect x="24.97" y="101.89" width="462.06" height="64.61" fill="#c8424b"/><rect x="24.97" y="345.5" width="462.06" height="65.09" fill="#c8424b"/></svg></button>
+        </div>
+      </div>
+      <div style="flex:1;">
+        <div class="splash-pref-label" id="splash-label-currency">Moeda</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;">
+          <button class="lang-btn active" onclick="splashSetCurrency('BRL')" id="splash-curr-BRL" style="font-size:13px;font-weight:600;" title="Real">R$</button>
+          <button class="lang-btn" onclick="splashSetCurrency('USD')" id="splash-curr-USD" style="font-size:13px;font-weight:600;" title="Dollar">$</button>
+          <button class="lang-btn" onclick="splashSetCurrency('EUR')" id="splash-curr-EUR" style="font-size:13px;font-weight:600;" title="Euro">€</button>
+          <button class="lang-btn" onclick="splashSetCurrency('GBP')" id="splash-curr-GBP" style="font-size:13px;font-weight:600;" title="Pound">£</button>
+          <button class="lang-btn" onclick="splashSetCurrency('JPY')" id="splash-curr-JPY" style="font-size:13px;font-weight:600;" title="Yen">¥</button>
+          <button class="lang-btn" onclick="splashSetCurrency('CNY')" id="splash-curr-CNY" style="font-size:13px;font-weight:600;" title="Yuan">元</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="splash-sep"></div>
+
+    <div class="splash-options">
+      <button class="splash-opt highlight" onclick="splashNovo()">
+        <div class="opt-icon"><svg viewBox="0 0 512 512" width="28" height="28" xmlns="http://www.w3.org/2000/svg"><path d="M367.89,273.9c6.65-15.75,28.97-15.75,35.62,0l22.16,52.46c1.96,4.64,5.65,8.33,10.29,10.29l52.46,22.16c15.75,6.65,15.75,28.97,0,35.63l-52.46,22.16c-4.64,1.96-8.33,5.65-10.29,10.29l-22.16,52.46c-6.65,15.75-28.97,15.75-35.62,0l-22.16-52.46c-1.96-4.64-5.65-8.33-10.29-10.29l-52.46-22.16c-15.75-6.65-15.75-28.97,0-35.63l52.46-22.16c4.64-1.96,8.33-5.65,10.29-10.29l22.16-52.46Z" fill="#f1ad17"/><path d="M354.68,28.73c4.44-10.5,19.31-10.5,23.75,0l12.04,28.5c1.31,3.09,3.77,5.55,6.86,6.86l28.5,12.04c10.5,4.44,10.5,19.31,0,23.75l-28.5,12.04c-3.09,1.31-5.55,3.77-6.86,6.86l-12.04,28.5c-4.44,10.5-19.31,10.5-23.75,0l-12.04-28.5c-1.31-3.09-3.77-5.55-6.86-6.86l-28.5-12.04c-10.5-4.44-10.5-19.31,0-23.75l28.5-12.04c3.09-1.31,5.55-3.77,6.86-6.86l12.04-28.5Z" fill="#f1ad17"/><path d="M170.32,60.39c6.65-15.75,28.97-15.75,35.63,0l40.52,95.93c1.96,4.64,5.65,8.33,10.29,10.29l95.93,40.52c15.75,6.65,15.75,28.97,0,35.62l-95.93,40.52c-4.64,1.96-8.33,5.65-10.29,10.29l-40.52,95.93c-6.65,15.75-28.97,15.75-35.63,0l-40.52-95.93c-1.96-4.64-5.65-8.33-10.29-10.29l-95.93-40.52c-15.75-6.65-15.75-28.97,0-35.62l95.93-40.52c4.64-1.96,8.33-5.65,10.29-10.29l40.52-95.93Z" fill="#f1ad17"/></svg></div>
+        <div style="flex:1">
+          <div class="opt-title" id="splash-new-title">Novo catálogo</div>
+          <div class="opt-desc" id="splash-new-desc">Começa do zero com catálogo vazio.</div>
+        </div>
+        <span class="opt-arrow">›</span>
+      </button>
+
+      <div class="splash-divider" id="splash-or">ou</div>
+
+      <button class="splash-opt" onclick="document.getElementById('splash-import-input').click()">
+        <div class="opt-icon"><svg viewBox="0 0 512 512" width="28" height="28" xmlns="http://www.w3.org/2000/svg"><path d="M217.4,118.38l-37.12-27.61c-8.77-6.46-19.3-9.97-30.19-9.97H48.34c-15.33,0-27.7,12.37-27.7,27.7v322.7h373.11c14.03,0,25.3-11.36,25.3-25.3v-249.85c0-15.33-12.37-27.7-27.7-27.7h-143.67c-10.9,0-21.51-3.51-30.28-9.97Z" fill="#dd8c1f"/><path d="M90.63,152.27h277c7.66,0,13.85,6.19,13.85,13.85v184.66c0,7.66-6.19,13.85-13.85,13.85H90.63c-7.66,0-13.85-6.19-13.85-13.85v-184.66c0-7.66,6.19-13.85,13.85-13.85Z" fill="#ffe9c4"/><path d="M72.16,170.73h277c7.66,0,13.85,6.19,13.85,13.85v184.66c0,7.66-6.19,13.85-13.85,13.85H72.16c-7.66,0-13.85-6.19-13.85-13.85v-184.66c0-7.66,6.19-13.85,13.85-13.85Z" fill="#fff7e6"/><path d="M98.29,222.81L20.64,431.11h379.3c11.54,0,21.88-7.2,25.95-18l63.71-171c6.74-18.1-6.65-37.39-25.95-37.39H124.24c-11.54.09-21.88,7.2-25.95,18.1Z" fill="#f1ad17"/></svg></div>
+        <div style="flex:1">
+          <div class="opt-title" id="splash-import-title">Importar catálogo existente</div>
+          <div class="opt-desc" id="splash-import-desc">Carrega um arquivo <code style="color:var(--accent)">.json</code> salvo anteriormente.</div>
+        </div>
+        <span class="opt-arrow">›</span>
+      </button>
+      <input type="file" id="splash-import-input" accept=".json" onchange="splashImportar(event)">
+    </div>
+  </div>
+</div>
+
+<!-- TOP NAV -->
+<nav class="topbar">
+  <button class="brand back-btn" onclick="showSplash()" id="back-btn" title="Voltar">
+    <span class="back-icon"><svg viewBox="0 0 438.483 438.483" width="14" height="14" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M431.168,230.762c-23.552-75.776-98.304-127.488-187.904-129.024V13.162c0-4.096-3.584-7.68-7.68-7.68c-1.536,0-3.072,0.512-4.608,1.536L3.136,171.882c-3.584,2.56-4.096,7.168-1.536,10.752c0.512,0.512,1.024,1.024,1.536,1.536l227.84,163.84c3.584,2.56,8.192,1.536,10.752-1.536c1.024-1.536,1.536-3.072,1.536-4.608v-88.064c55.296,0,101.888,26.112,118.272,65.536c13.824,33.792,2.56,70.144-30.208,100.352c-3.072,3.072-3.584,7.68-0.512,10.752c1.536,1.536,3.584,2.56,5.632,2.56h6.144c1.536,0,3.072-0.512,4.096-1.536C421.952,381.802,454.208,304.49,431.168,230.762z"/></svg></span>
+    <span data-i18n="backBtn" id="back-label">Voltar</span>
+  </button>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('main')" id="tab-main">
+      <svg viewBox="0 0 512 512" width="16" height="16" xmlns="http://www.w3.org/2000/svg"><path d="M56.99,81.82v383.24c0,3.19,2.6,5.81,5.79,5.81h329.63c3.19,0,5.82-2.62,5.82-5.81V113.27l-.02-3.61c0-.52-.07-.91-.25-1.28h-47.04c-12.82,0-23.32-10.5-23.32-23.33l.05-43.64c-.47-.22-.91-.29-1.52-.29H62.78c-3.19,0-5.79,2.6-5.79,5.79v34.91Z" fill="#fff7e6" fill-rule="evenodd"/><path d="M327.65,41.42l-.05,43.64c0,12.83,10.51,23.33,23.32,23.33h47.04c-.39-.78-1.28-1.47-3.04-3.16l-63.54-60.54c-1.96-1.89-2.85-2.82-3.73-3.26Z" fill="#ffe9c4" fill-rule="evenodd"/><path d="M279.19,430.27c-6.1,0-11.05-4.08-15.11-8.12-1.83-1.81-2.71-1.97-2.72-1.97-.63.12-2.46,1.71-3.56,2.67-4.49,3.91-13.82,12.03-27.1-.14-2.64-2.42-2.82-6.52-.4-9.16,2.42-2.64,6.52-2.82,9.16-.4,2.27,2.08,4.26,3.19,5.35,3.01,1.16-.21,2.92-1.74,4.47-3.09,4.16-3.62,12.81-11.15,23.93-.11,4.25,4.23,5.76,4.37,6.02,4.35.33-.02,1.34-.56,2.85-2.48,2.04-2.59,3.5-5.19,4.92-7.7,2.73-4.85,5.55-9.86,11.55-11.02,7.14-1.34,10.87,4.74,13.59,9.18,3.91,6.38,6.66,10.24,13.65,9.46,3.56-.41,6.77,2.16,7.17,5.72.4,3.56-2.16,6.77-5.72,7.17-15.54,1.74-22.44-9.52-26.15-15.57-.31-.5-.66-1.08-1.01-1.62-.59.94-1.23,2.08-1.77,3.04-1.5,2.67-3.37,5.99-6.03,9.37-3.65,4.64-7.77,7.13-12.26,7.4-.28.02-.56.03-.83.03Z" fill="#5a5a5a"/><path d="M311.19,216.18h-176.06c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h176.06c3.58,0,6.48,2.9,6.48,6.48s-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M311.19,168.32h-176.06c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h176.06c3.58,0,6.48,2.9,6.48,6.48s-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M311.19,120.46h-176.06c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h176.06c3.58,0,6.48,2.9,6.48,6.48s-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M300.46,266.59h-165.33c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h165.33c3.58,0,6.48,2.9,6.48,6.48,0,3.58-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M287.67,317.01h-152.54c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h152.54c3.58,0,6.48,2.9,6.48,6.48,0,3.58-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M239.6,367.42h-104.47c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h104.47c3.58,0,6.48,2.9,6.48,6.48,0,3.58-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M447.24,122.41l-34.03-11.08c-5.91-1.92-12.26,1.31-14.18,7.22l-10.33,31.73,55.43,18.05,10.33-31.73c1.92-5.91-1.31-12.26-7.22-14.18Z" fill="#ed705b"/><path d="M329.19,427.17l29.71-39.3-30.59-9.96.88,49.26Z" fill="#434343"/><path d="M378.9,180.33l9.78-30.03,55.43,18.05-9.78,30.03-55.43-18.05Z" fill="#434343"/><path d="M352.35,355.89l-9.12-22.85-15.63,4.85.71,40.01,30.59,9.96,24.13-31.92-9.86-13.15-20.83,13.1Z" fill="#fbcb81"/><path d="M378.91,180.31l-51.31,157.59,15.63-4.85,9.12,22.85,54.24-166.57-27.68-9.01Z" fill="#e79c19"/><path d="M390.35,184.03l16.24,5.29-27.68-9.01-51.31,157.59,14.07-4.37,48.67-149.5Z" fill="#dd8c1f"/><path d="M406.59,189.32l-54.24,166.57,20.83-13.1,9.86,13.15,51.31-157.59-27.76-9.04Z" fill="#f1ad17"/></svg> <span data-i18n="tabList">Lista</span>
+    </button>
+    <button class="tab-btn" onclick="showTab('db')" id="tab-db">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="16" height="16" style="display:inline-block;vertical-align:middle;flex-shrink:0"><defs><style>.c0{fill:#a4513f;fill-rule:evenodd}.c1{fill:#e79c19;fill-rule:evenodd}.c2{fill:#dd8c1f;fill-rule:evenodd}.c3{fill:#f5ae9a;fill-rule:evenodd}.c4{fill:#ed705b;fill-rule:evenodd}.c5{fill:#f1ad17;fill-rule:evenodd}</style></defs><path class="c0" d="M43.56,297.96v148.5c0,5.83,2.34,11.42,6.45,15.54,4.1,4.12,9.67,6.44,15.53,6.44h380.92c5.86,0,11.43-2.31,15.53-6.44,4.1-4.12,6.45-9.71,6.45-15.54v-141.34c0-4.04-.51-8.08-1.54-12-7.33-28.47-43.95-170.3-54.43-211.09-2.56-9.7-11.28-16.48-21.32-16.48H120.77c-9.96,0-18.68,6.7-21.24,16.31-10.55,39.64-46.81,175.52-54.35,203.73-1.1,4.04-1.61,8.2-1.61,12.37Z"/><path class="c2" d="M395.18,87.52c0-5.83-2.34-11.42-6.45-15.54-4.1-4.12-9.67-6.44-15.53-6.44h-162.4c-1.98,0-3.81-.77-5.2-2.15l-13.41-13.39c-4.1-4.12-9.67-6.44-15.53-6.44h-37.87c-12.16,0-21.98,9.84-21.98,21.98v95.23c0,4.04,3.3,7.33,7.33,7.33h263.71c4.03,0,7.33-3.28,7.33-7.33v-73.25Z"/><path class="c1" d="M417.16,146.12c0-12.14-9.82-21.98-21.98-21.98h-175.52c-2.93,0-5.71-1.16-7.84-3.22l-18.53-18.58c-4.83-4.81-11.35-7.51-18.17-7.51h-58.31c-5.86,0-11.43,2.31-15.53,6.44-4.1,4.12-6.45,9.71-6.45,15.54v175.81c0,4.04,3.3,7.33,7.33,7.33h307.67c4.03,0,7.33-3.28,7.33-7.33v-146.51Z"/><path class="c5" d="M439.13,241.35c0-12.14-9.82-21.98-21.98-21.98h-188.7c-3.88,0-7.62-1.55-10.33-4.29l-23.73-23.75c-5.49-5.5-12.97-8.59-20.73-8.59h-78.82c-5.86,0-11.43,2.31-15.53,6.44-4.1,4.12-6.45,9.71-6.45,15.54v183.13c0,4.04,3.3,7.33,7.33,7.33h351.62c4.03,0,7.33-3.28,7.33-7.33v-146.51Z"/><path class="c4" d="M468.43,307.28c0-12.14-9.82-21.98-21.98-21.98h-139.18c-2.78,0-5.27,1.57-6.52,4.05l-12.67,25.25h-64.17l-12.67-25.25c-1.24-2.48-3.74-4.05-6.52-4.05H65.54c-12.16,0-21.98,9.84-21.98,21.98v139.18c0,12.14,9.82,21.98,21.98,21.98h380.92c12.16,0,21.98-9.84,21.98-21.98v-139.18Z"/><path class="c3" d="M321.93,380.53c0-12.14-9.82-21.98-21.98-21.98h-87.9c-12.16,0-21.98,9.84-21.98,21.98v7.33c0,12.14,9.82,21.98,21.98,21.98h87.9c12.16,0,21.98-9.84,21.98-21.98v-7.33Z"/></svg> <span data-i18n="tabCatalog">Catálogo</span>
+    </button>
+  </div>
+  <button class="settings-btn" onclick="toggleSettings(event)" title="Configurações"><svg viewBox="0 0 512 512" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M472.43,223.3c-.97-6.5-6.51-11.33-13.08-11.33h-29.54c-4.22-16.82-10.86-32.88-19.75-47.76l20.87-20.87c4.64-4.65,5.14-11.98,1.24-17.26-13.02-17.63-28.62-33.23-46.25-46.25-5.28-3.9-12.61-3.41-17.26,1.24l-20.88,20.88c-14.87-8.89-30.93-15.53-47.75-19.75v-29.54c0-6.57-4.83-12.11-11.33-13.08-10.67-1.6-21.59-2.42-32.7-2.42s-22.04.83-32.7,2.42c-6.5.97-11.33,6.51-11.33,13.08v29.54c-16.82,4.22-32.88,10.87-47.75,19.75l-20.87-20.87c-4.64-4.64-11.98-5.14-17.26-1.24-17.63,13.02-33.23,28.62-46.25,46.25-3.9,5.29-3.41,12.62,1.24,17.26l20.87,20.87c-8.89,14.88-15.53,30.93-19.75,47.75h-29.54c-6.57,0-12.11,4.83-13.08,11.33-1.6,10.67-2.42,21.59-2.42,32.7s.83,22.04,2.42,32.7c.97,6.5,6.51,11.33,13.08,11.33h29.54c4.22,16.82,10.86,32.88,19.75,47.75l-20.88,20.88c-4.64,4.64-5.14,11.98-1.24,17.26,13.02,17.63,28.62,33.23,46.25,46.25,5.29,3.9,12.61,3.41,17.26-1.24l20.87-20.87c14.88,8.89,30.93,15.52,47.75,19.75v29.54c0,6.57,4.83,12.11,11.33,13.08,10.67,1.59,21.59,2.42,32.7,2.42s22.04-.83,32.7-2.42c6.5-.97,11.33-6.51,11.33-13.08v-29.54c16.82-4.22,32.88-10.87,47.76-19.75l20.87,20.87c4.65,4.65,11.98,5.14,17.26,1.24,17.63-13.02,33.23-28.62,46.25-46.25,3.9-5.29,3.41-12.62-1.24-17.26l-20.87-20.87c8.89-14.88,15.53-30.93,19.75-47.75h29.54c6.57,0,12.11-4.83,13.08-11.33,1.6-10.67,2.42-21.59,2.42-32.7s-.83-22.04-2.42-32.7ZM256,154.72c55.94,0,101.28,45.35,101.28,101.28s-45.35,101.28-101.28,101.28-101.28-45.35-101.28-101.28,45.35-101.28,101.28-101.28Z"/><path d="M256,129.62c-69.94,0-126.38,56.43-126.38,126.38s56.43,126.38,126.38,126.38,126.38-56.43,126.38-126.38-56.43-126.38-126.38-126.38ZM256,329.54c-40.73,0-73.54-32.79-73.54-73.54s32.79-73.54,73.54-73.54,73.54,32.79,73.54,73.54-32.79,73.54-73.54,73.54Z"/></svg></button>
+</nav>
+
+<!-- SETTINGS PANEL -->
+<div class="settings-panel" id="settings-panel">
+  <div class="settings-section-label" data-i18n="settingsAppearance">Aparência</div>
+  <div class="settings-row">
+    <span class="settings-row-label"><svg viewBox="0 0 512 512" width="15" height="15" xmlns="http://www.w3.org/2000/svg"><path d="M350.56,338.65c-76-8.52-138.6-69.19-149.03-144.98-7.03-50.03,8.09-96.44,36.62-131.57,6.17-7.45-.85-18.73-10.22-17.24C119.36,63.38,38.67,163.65,52.3,280.32c11.5,97.51,91.55,176.06,189.05,185.86,97.51,9.79,184.58-47.05,219.07-130.93,3.62-8.94-5.96-17.88-14.48-13.63-28.1,14.05-60.89,20.65-95.38,16.82v.21Z" fill="#f1ad17"/></svg> <span data-i18n="settingsDark">Modo escuro</span></span>
+    <label class="toggle">
+      <input type="checkbox" id="dark-toggle" onchange="toggleDark(this.checked)">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+  <div class="settings-sep"></div>
+  <div class="settings-section-label" data-i18n="settingsLanguage">Idioma</div>
+  <div class="lang-options">
+    <button class="lang-btn active" onclick="setLang('pt')" id="lang-pt" title="Português"><svg viewBox="0 0 512 512" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M452.45,102.41H59.55c-19.11,0-34.61,15.72-34.61,35.11v236.95c0,19.39,15.49,35.11,34.61,35.11h392.9c19.11,0,34.61-15.72,34.61-35.11v-236.95c0-19.39-15.49-35.11-34.61-35.11Z" fill="#72af2d"/><path d="M251.8,145.39l-170.38,103.71c-5.17,3.15-5.17,10.66,0,13.81l170.38,103.71c2.58,1.57,5.82,1.57,8.41,0l170.38-103.71c5.17-3.15,5.17-10.66,0-13.81l-170.38-103.71c-2.58-1.57-5.82-1.57-8.41,0Z" fill="#ffe05a"/><circle cx="256" cy="256" r="64.67" fill="#414897"/><path d="M200.51,222.92c-3.05,5.11-5.41,10.66-6.96,16.55,35.85-2.7,88.88,7.33,122.64,40.08,2.2-5.62,3.66-11.61,4.2-17.88-34.85-29.33-83.04-39.76-119.87-38.76Z" fill="#f4f4f4"/></svg></button>
+    <button class="lang-btn" onclick="setLang('en')" id="lang-en" title="English"><svg viewBox="0 0 512 512" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><rect x="24.97" y="101.89" width="462.06" height="308.21" rx="34.6" fill="#f1f1f5"/><rect x="24.97" y="190.03" width="462.06" height="44.32" fill="#e3646e"/><rect x="24.97" y="278.17" width="462.06" height="44.32" fill="#e3646e"/><path d="M452.43,101.89H59.58c-19.12,0-34.61,15.5-34.61,34.61v8.64h0v97.03h248.23V101.89h179.23Z" fill="#e3646e"/><path d="M24.97,366.81v8.64c0,19.11,15.49,34.66,34.6,34.66h392.85c19.11,0,34.6-15.55,34.6-34.66v-8.64H24.97Z" fill="#e3646e"/><path d="M24.97,136.51v141.66h248.23V101.89H59.58c-19.12,0-34.61,15.5-34.61,34.61Z" fill="#4f55a0"/></svg></button>
+    <button class="lang-btn" onclick="setLang('es')" id="lang-es" title="Español"><svg viewBox="0 0 512 512" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M487.03,410.59H24.97v-29.76H487.03v29.76c0,19.51-15.82,35.33-35.32,35.33H61.66c-19.51,0-35.32-15.82-35.32-35.33h.63Z" fill="#c8424b"/><rect x="24.97" y="166.5" width="462.06" height="178.99" fill="#ffd251"/><path d="M487.03,101.89H61.66c-19.51,0-35.32,15.82-35.32,35.38v29.23H487.03v-29.23c0-19.56-15.82-35.38-35.32-35.38h35.32Z" fill="#c8424b"/><rect x="24.97" y="101.89" width="462.06" height="64.61" fill="#c8424b"/><rect x="24.97" y="345.5" width="462.06" height="65.09" fill="#c8424b"/></svg></button>
+  </div>
+  <div class="settings-sep"></div>
+  <div class="settings-section-label">Moeda</div>
+  <div class="lang-options" style="flex-wrap:wrap;gap:4px;">
+    <button class="lang-btn" onclick="setCurrency('BRL')" id="curr-BRL" title="Real Brasileiro" style="font-size:13px;font-weight:600;">R$</button>
+    <button class="lang-btn" onclick="setCurrency('USD')" id="curr-USD" title="Dólar Americano" style="font-size:13px;font-weight:600;">$</button>
+    <button class="lang-btn" onclick="setCurrency('EUR')" id="curr-EUR" title="Euro" style="font-size:13px;font-weight:600;">€</button>
+    <button class="lang-btn" onclick="setCurrency('GBP')" id="curr-GBP" title="Libra Esterlina" style="font-size:13px;font-weight:600;">£</button>
+    <button class="lang-btn" onclick="setCurrency('JPY')" id="curr-JPY" title="Iene Japonês" style="font-size:13px;font-weight:600;">¥</button>
+    <button class="lang-btn" onclick="setCurrency('CNY')" id="curr-CNY" title="Yuan Chinês" style="font-size:13px;font-weight:600;">元</button>
+  </div>
+</div>
+
+<!-- ══════════════ PAGE: MAIN ══════════════ -->
+<div class="page active" id="page-main">
+  <div class="section-head">
+    <h2><span class="page-emoji"><svg viewBox="0 0 512 512" width="36" height="36" xmlns="http://www.w3.org/2000/svg"><path d="M56.99,81.82v383.24c0,3.19,2.6,5.81,5.79,5.81h329.63c3.19,0,5.82-2.62,5.82-5.81V113.27l-.02-3.61c0-.52-.07-.91-.25-1.28h-47.04c-12.82,0-23.32-10.5-23.32-23.33l.05-43.64c-.47-.22-.91-.29-1.52-.29H62.78c-3.19,0-5.79,2.6-5.79,5.79v34.91Z" fill="#fff7e6" fill-rule="evenodd"/><path d="M327.65,41.42l-.05,43.64c0,12.83,10.51,23.33,23.32,23.33h47.04c-.39-.78-1.28-1.47-3.04-3.16l-63.54-60.54c-1.96-1.89-2.85-2.82-3.73-3.26Z" fill="#ffe9c4" fill-rule="evenodd"/><path d="M279.19,430.27c-6.1,0-11.05-4.08-15.11-8.12-1.83-1.81-2.71-1.97-2.72-1.97-.63.12-2.46,1.71-3.56,2.67-4.49,3.91-13.82,12.03-27.1-.14-2.64-2.42-2.82-6.52-.4-9.16,2.42-2.64,6.52-2.82,9.16-.4,2.27,2.08,4.26,3.19,5.35,3.01,1.16-.21,2.92-1.74,4.47-3.09,4.16-3.62,12.81-11.15,23.93-.11,4.25,4.23,5.76,4.37,6.02,4.35.33-.02,1.34-.56,2.85-2.48,2.04-2.59,3.5-5.19,4.92-7.7,2.73-4.85,5.55-9.86,11.55-11.02,7.14-1.34,10.87,4.74,13.59,9.18,3.91,6.38,6.66,10.24,13.65,9.46,3.56-.41,6.77,2.16,7.17,5.72.4,3.56-2.16,6.77-5.72,7.17-15.54,1.74-22.44-9.52-26.15-15.57-.31-.5-.66-1.08-1.01-1.62-.59.94-1.23,2.08-1.77,3.04-1.5,2.67-3.37,5.99-6.03,9.37-3.65,4.64-7.77,7.13-12.26,7.4-.28.02-.56.03-.83.03Z" fill="#5a5a5a"/><path d="M311.19,216.18h-176.06c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h176.06c3.58,0,6.48,2.9,6.48,6.48s-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M311.19,168.32h-176.06c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h176.06c3.58,0,6.48,2.9,6.48,6.48s-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M311.19,120.46h-176.06c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h176.06c3.58,0,6.48,2.9,6.48,6.48s-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M300.46,266.59h-165.33c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h165.33c3.58,0,6.48,2.9,6.48,6.48,0,3.58-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M287.67,317.01h-152.54c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h152.54c3.58,0,6.48,2.9,6.48,6.48,0,3.58-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M239.6,367.42h-104.47c-3.58,0-6.48-2.9-6.48-6.48s2.9-6.48,6.48-6.48h104.47c3.58,0,6.48,2.9,6.48,6.48,0,3.58-2.9,6.48-6.48,6.48Z" fill="#5a5a5a"/><path d="M447.24,122.41l-34.03-11.08c-5.91-1.92-12.26,1.31-14.18,7.22l-10.33,31.73,55.43,18.05,10.33-31.73c1.92-5.91-1.31-12.26-7.22-14.18Z" fill="#ed705b"/><path d="M329.19,427.17l29.71-39.3-30.59-9.96.88,49.26Z" fill="#434343"/><path d="M378.9,180.33l9.78-30.03,55.43,18.05-9.78,30.03-55.43-18.05Z" fill="#434343"/><path d="M352.35,355.89l-9.12-22.85-15.63,4.85.71,40.01,30.59,9.96,24.13-31.92-9.86-13.15-20.83,13.1Z" fill="#fbcb81"/><path d="M378.91,180.31l-51.31,157.59,15.63-4.85,9.12,22.85,54.24-166.57-27.68-9.01Z" fill="#e79c19"/><path d="M390.35,184.03l16.24,5.29-27.68-9.01-51.31,157.59,14.07-4.37,48.67-149.5Z" fill="#dd8c1f"/><path d="M406.59,189.32l-54.24,166.57,20.83-13.1,9.86,13.15,51.31-157.59-27.76-9.04Z" fill="#f1ad17"/></svg></span> <span data-i18n="tabList">Lista</span></h2>
+    <p data-i18n="listSubtitle">Selecione o produto, digite a quantidade — o preço é preenchido automaticamente.</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th data-i18n="colProduct">Produto</th>
+          <th class="r" data-i18n="colPrice">Preço Unit.</th>
+          <th class="r" style="width:100px" data-i18n="colQty">Qtd.</th>
+          <th class="r" style="width:120px" data-i18n="colSubtotal">Subtotal</th>
+          <th class="c" style="width:52px">—</th>
+        </tr>
+      </thead>
+      <tbody id="main-corpo"></tbody>
+      <tfoot>
+        <tr class="tfoot-total">
+          <td class="tfoot-label" colspan="3" data-i18n="totalLabel">Total Geral</td>
+          <td class="tfoot-val" id="main-total" colspan="2">R$ 0,00</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="actions-bar">
+    <button class="btn btn-primary" onclick="addMainRow()" data-i18n="btnAddItem">+ Adicionar item</button>
+    <button class="btn btn-secondary" onclick="exportarPDF()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5z"/></svg>
+      <span data-i18n="btnExportPDF">Exportar PDF</span>
+    </button>
+    <button class="btn btn-ghost" onclick="clearMain()" data-i18n="btnClearAll">Limpar tudo</button>
+  </div>
+  <p class="item-info" id="main-info" data-i18n="noItems">Nenhum item adicionado.</p>
+</div>
+
+<!-- ══════════════ PAGE: DB ══════════════ -->
+<div class="page" id="page-db">
+  <div class="section-head">
+    <h2><span class="page-emoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="32" height="32"><defs><style>.c0{fill:#a4513f;fill-rule:evenodd}.c1{fill:#e79c19;fill-rule:evenodd}.c2{fill:#dd8c1f;fill-rule:evenodd}.c3{fill:#f5ae9a;fill-rule:evenodd}.c4{fill:#ed705b;fill-rule:evenodd}.c5{fill:#f1ad17;fill-rule:evenodd}</style></defs><path class="c0" d="M43.56,297.96v148.5c0,5.83,2.34,11.42,6.45,15.54,4.1,4.12,9.67,6.44,15.53,6.44h380.92c5.86,0,11.43-2.31,15.53-6.44,4.1-4.12,6.45-9.71,6.45-15.54v-141.34c0-4.04-.51-8.08-1.54-12-7.33-28.47-43.95-170.3-54.43-211.09-2.56-9.7-11.28-16.48-21.32-16.48H120.77c-9.96,0-18.68,6.7-21.24,16.31-10.55,39.64-46.81,175.52-54.35,203.73-1.1,4.04-1.61,8.2-1.61,12.37Z"/><path class="c2" d="M395.18,87.52c0-5.83-2.34-11.42-6.45-15.54-4.1-4.12-9.67-6.44-15.53-6.44h-162.4c-1.98,0-3.81-.77-5.2-2.15l-13.41-13.39c-4.1-4.12-9.67-6.44-15.53-6.44h-37.87c-12.16,0-21.98,9.84-21.98,21.98v95.23c0,4.04,3.3,7.33,7.33,7.33h263.71c4.03,0,7.33-3.28,7.33-7.33v-73.25Z"/><path class="c1" d="M417.16,146.12c0-12.14-9.82-21.98-21.98-21.98h-175.52c-2.93,0-5.71-1.16-7.84-3.22l-18.53-18.58c-4.83-4.81-11.35-7.51-18.17-7.51h-58.31c-5.86,0-11.43,2.31-15.53,6.44-4.1,4.12-6.45,9.71-6.45,15.54v175.81c0,4.04,3.3,7.33,7.33,7.33h307.67c4.03,0,7.33-3.28,7.33-7.33v-146.51Z"/><path class="c5" d="M439.13,241.35c0-12.14-9.82-21.98-21.98-21.98h-188.7c-3.88,0-7.62-1.55-10.33-4.29l-23.73-23.75c-5.49-5.5-12.97-8.59-20.73-8.59h-78.82c-5.86,0-11.43,2.31-15.53,6.44-4.1,4.12-6.45,9.71-6.45,15.54v183.13c0,4.04,3.3,7.33,7.33,7.33h351.62c4.03,0,7.33-3.28,7.33-7.33v-146.51Z"/><path class="c4" d="M468.43,307.28c0-12.14-9.82-21.98-21.98-21.98h-139.18c-2.78,0-5.27,1.57-6.52,4.05l-12.67,25.25h-64.17l-12.67-25.25c-1.24-2.48-3.74-4.05-6.52-4.05H65.54c-12.16,0-21.98,9.84-21.98,21.98v139.18c0,12.14,9.82,21.98,21.98,21.98h380.92c12.16,0,21.98-9.84,21.98-21.98v-139.18Z"/><path class="c3" d="M321.93,380.53c0-12.14-9.82-21.98-21.98-21.98h-87.9c-12.16,0-21.98,9.84-21.98,21.98v7.33c0,12.14,9.82,21.98,21.98,21.98h87.9c12.16,0,21.98-9.84,21.98-21.98v-7.33Z"/></svg></span> <span data-i18n="tabCatalog">Catálogo</span></h2>
+    <p data-i18n="catalogSubtitle">Cadastre produtos e preços. Os dados ficam salvos no navegador.</p>
+  </div>
+
+  <!-- Add form -->
+  <div class="add-form-wrap">
+    <div class="form-row">
+      <div class="form-field">
+        <label data-i18n="labelName">Nome do produto</label>
+        <input type="text" id="db-nome" class="form-input" placeholder="Ex: Arroz Parboilizado 1 kg" autocomplete="off" onkeydown="if(event.key==='Enter') salvarProduto()">
+      </div>
+      <div class="form-field" style="max-width:180px">
+        <label data-i18n="labelPrice" id="label-price">Preço</label>
+        <input type="number" id="db-preco" class="form-input" placeholder="0,00" min="0" step="0.01" onkeydown="if(event.key==='Enter') salvarProduto()">
+      </div>
+      <button class="btn btn-primary" onclick="salvarProduto()" style="margin-bottom:1px;flex-shrink:0" data-i18n="btnRegister">Cadastrar</button>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <span class="search-icon"><svg viewBox="0 0 512 512" width="15" height="15" xmlns="http://www.w3.org/2000/svg"><rect x="291.88" y="298.45" width="61.75" height="47.5" transform="translate(-133.3 322.59) rotate(-45)" fill="#252626"/><circle cx="194.25" cy="194.25" r="147.26" fill="#8cd1f2"/><path d="M312.05,312.05c-64.6,64.6-171.01,64.6-235.61,0-64.6-64.6-64.6-171.01,0-235.61,64.6-64.6,171.01-64.6,235.61,0,64.6,64.6,65.55,171.01,0,235.61ZM103.99,103.99c-50.35,50.35-50.35,131.11,0,181.46,50.35,50.35,131.11,50.35,181.46,0,50.35-50.35,50.35-131.11,0-181.46-50.35-50.35-132.06-50.35-181.46,0Z" fill="#434343"/><path d="M367.15,309.2c50.35,35.15,88.35,62.7,99.75,75.05,22.8,22.8,22.8,59.85,0,82.65-22.8,22.8-59.85,22.8-82.65,0-11.4-11.4-39.9-49.4-75.05-99.75l57.95-57.95Z" fill="#ed705b"/><path d="M328.2,393.76c-5.7-8.55-12.35-17.1-18.05-25.65l57.95-57.95c9.5,6.65,18.05,12.35,25.65,18.05l-65.55,65.55Z" fill="#e95642"/><path d="M319.65,377.6l57.95-57.95c5.7-5.7,5.7-15.2,0-20.9-5.7-5.7-15.2-5.7-20.9,0l-57.95,57.95c-5.7,5.7-5.7,15.2,0,20.9,5.7,6.65,15.2,6.65,20.9,0Z" fill="#ed705b"/></svg></span>
+    <input type="text" id="db-search" placeholder="Buscar produto..." oninput="renderDB()">
+  </div>
+
+  <!-- DB Table -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th data-i18n="colProduct">Produto</th>
+          <th class="r" data-i18n="colPrice">Preço (R$)</th>
+          <th class="c" style="width:90px">—</th>
+        </tr>
+      </thead>
+      <tbody id="db-corpo"></tbody>
+    </table>
+  </div>
+
+  <div class="actions-bar">
+    <button class="btn btn-secondary" onclick="exportarJSON()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      <span data-i18n="btnExportCat">Exportar catálogo</span>
+    </button>
+    <button class="btn btn-secondary" onclick="document.getElementById('import-input').click()">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+      <span data-i18n="btnImportCat">Importar catálogo</span>
+    </button>
+    <input type="file" id="import-input" accept=".json" style="display:none" onchange="importarJSON(event)">
+    <button class="btn btn-ghost" onclick="clearDB()" data-i18n="btnClearDB">Limpar banco</button>
+  </div>
+
+  <!-- Import info box -->
+  <div id="import-info" style="display:none;margin-top:12px;background:var(--accent-bg);border:1px solid rgba(35,131,226,0.2);border-radius:8px;padding:12px 16px;font-size:12.5px;color:var(--muted);line-height:1.8;">
+    <strong style="color:var(--accent);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;" data-i18n="infoTitle">Como usar o catálogo</strong><br>
+    <span data-i18n="infoStep1">1. Clique em <strong style="color:var(--text2)">Exportar catálogo</strong> para baixar o arquivo <code style="color:var(--accent);background:rgba(35,131,226,0.1);padding:1px 4px;border-radius:3px">.json</code></span><br>
+    <span data-i18n="infoStep2">2. Guarde em local seguro (pasta, pendrive, Google Drive…)</span><br>
+    <span data-i18n="infoStep3">3. Para restaurar, clique em <strong style="color:var(--text2)">Importar catálogo</strong> e selecione o arquivo</span>
+  </div>
+  <button onclick="toggleImportInfo()" style="background:none;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:12px;cursor:pointer;margin-top:8px;padding:0;" data-i18n="howToBackup">
+    Como fazer backup do catálogo?
+  </button>
+
+  <p class="item-info" id="db-info">Nenhum produto cadastrado.</p>
+</div>
+
+<!-- Custom filename modal -->
+<div id="filename-modal" style="display:none;position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;">
+  <div id="filename-overlay" onclick="closeFilenameModal()" style="position:absolute;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(2px);"></div>
+  <div id="filename-card" style="position:relative;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 28px 24px;width:100%;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,0.18);z-index:1;">
+    <p id="filename-label" style="margin:0 0 12px;font-size:14px;font-weight:500;color:var(--text2);">Escreva o nome do arquivo:</p>
+    <input id="filename-input" type="text" style="width:100%;box-sizing:border-box;padding:9px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border 0.15s;" 
+      onkeydown="if(event.key==='Enter')confirmFilename();if(event.key==='Escape')closeFilenameModal();">
+    <div style="display:flex;gap:8px;margin-top:16px;justify-content:flex-end;">
+      <button onclick="closeFilenameModal()" id="filename-cancel" style="padding:8px 16px;border:1px solid var(--border2);border-radius:8px;background:none;color:var(--text2);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;">Cancelar</button>
+      <button onclick="confirmFilename()" id="filename-confirm" style="padding:8px 16px;border:none;border-radius:8px;background:var(--text2);color:var(--bg);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
